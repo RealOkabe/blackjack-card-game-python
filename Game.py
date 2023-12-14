@@ -21,12 +21,12 @@ class Game:
         return sum
     
     def eliminatePlayer(self, hand):
-        return self.getCardsSum(hand) > 22
+        return self.getCardsSum(hand) >21
 
-    def check22(self, hands):
+    def check21(self, hands):
         winners = []
         for i in hands:
-            if self.getCardsSum(i) == 22:
+            if self.getCardsSum(i) == 21:
                 winners.append(i)
         return winners
 
@@ -42,7 +42,7 @@ class Game:
         
 
 
-    def cardGame22(self):
+    def cardGameBlackjack(self):
         self.deck = Deck()
         self.deck.shuffle()
         startGame = False
@@ -69,11 +69,11 @@ class Game:
                 while i < len(self.hands):
                     print(self.hands[i])
                     if self.eliminatePlayer(self.hands[i]):
-                        print(f"{self.hands[i].name} has been eliminated because their total exceeded 22")
+                        print(f"{self.hands[i].name} has been eliminated because their total exceeded 21")
                         self.hands.pop(i)
                         i = i - 1
                     i = i + 1
-                winners = self.check22(self.hands)
+                winners = self.check21(self.hands)
             if winners:
                 break
             passCount = 0
@@ -86,10 +86,10 @@ class Game:
                     self.deck.deal(self.hands[turnNumber:turnNumber + 1], 1)
                     print(self.hands[turnNumber])
                     if self.eliminatePlayer(self.hands[turnNumber]):
-                        print(f"{self.hands[turnNumber].name} has been eliminated because their total exceeded 22")
+                        print(f"{self.hands[turnNumber].name} has been eliminated because their total exceeded 21")
                         self.hands.pop(turnNumber)
                         turnNumber = turnNumber - 1
-                    winners = self.check22(self.hands)
+                    winners = self.check21(self.hands)
                 else:
                     continue
                 if passCount == len(self.hands):
@@ -100,22 +100,32 @@ class Game:
                 turnNumber = turnNumber + 1
 
         if len(self.hands) == 1:
-            print(f"{self.hands[0].name} has won by default")
+            print(f"{self.hands[0].name} has won this round of Blackjack by default")
         elif passCount == len(self.hands):
             for i in winners:
-                print(f"{i.name} has won for having the highest score")
+                print(f"{i.name} has won this round of Blackjack for having the highest score")
         else:
             for i in winners:
-                print(f"{i.name} has won the 22 game because of having a score of 22")
+                print(f"{i.name} has won this round of Blackjack because of having a score of 21")
 
 if __name__ == '__main__':
     game = Game()
     playAgain = ""
     toPlay = True
     while toPlay:
-        playerConsent = input(f"Hello and welcome to the 22 Game. Would you like to play{playAgain}? Answer \'Yes\' or \'No\'. ")
+        playerConsent = input(f"""Hello and welcome to Blackjack.
+Here is an overview of the game:
+1. You will be dealt two cards each when the game begins.
+2. If the total of your cards\' ranks exceeds 21, you are eliminated from the game. If the total is 21, you win the game.
+3. If no one has cards whose ranks total 21, then the game continues.
+4. Everyone will be asked if they want to pick a card from the deck or pass.
+5. If someone picks a card and their new total exceeds 21, they get eliminated.
+6. If everyone passes a turn, then the winner is decided by comparing the total of ranks. The highest total wins.
+7. If someone manages to get a total of 21 by picking a card, they win.
+8. If everyone gets eliminated and one player remains, the remaining player wins by default.
+Would you like to play{playAgain}? Answer \'Yes\' or \'No\': """)
         if playerConsent.lower() == 'yes':
-            game.cardGame22()
+            game.cardGameBlackjack()
         elif playerConsent.lower() == 'no':
             print("Thank you. This game was brought to you by Anmol Agrawal.")
             exit(0)
