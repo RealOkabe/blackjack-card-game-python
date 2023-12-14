@@ -34,6 +34,7 @@ class Game:
         sums = {}
         for i in hands:
             sums[i] = self.getCardsSum(i)
+            print(f"{i.name} has a score of {sums[i]}")
         maxHand = max(sums.values())
         return [x for x in sums.keys() if sums[x] == maxHand]
 
@@ -59,6 +60,7 @@ class Game:
             self.hands[i].name = f"Player {i + 1}"
         firstTurn = True
         winners = []
+        passCount = 0
         while not self.deck.is_empty() and not winners:
             if firstTurn:
                 self.deck.deal(self.hands, 2)
@@ -97,7 +99,14 @@ class Game:
                     break
                 turnNumber = turnNumber + 1
 
-        print("Someone has won the game")
+        if len(self.hands) == 1:
+            print(f"{self.hands[0].name} has won by default")
+        elif passCount == len(self.hands):
+            for i in winners:
+                print(f"{i.name} has won for having the highest score")
+        else:
+            for i in winners:
+                print(f"{i.name} has won the 22 game because of having a score of 22")
 
 if __name__ == '__main__':
     game = Game()
