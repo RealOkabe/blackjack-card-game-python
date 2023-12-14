@@ -47,7 +47,7 @@ class Game:
         self.deck.shuffle()
         startGame = False
         while not startGame:
-            self.noOfPlayers = input("Welcome to the 22 Card Game. How many people will be playing? Please enter a number between 2 and 12: ")
+            self.noOfPlayers = input("How many people will be playing? Please enter a number between 2 and 16: ")
             try:
                 self.noOfPlayers = int(self.noOfPlayers)
                 if self.noOfPlayers not in range(2, 13):
@@ -110,4 +110,15 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.cardGame22()
+    playAgain = ""
+    toPlay = True
+    while toPlay:
+        playerConsent = input(f"Hello and welcome to the 22 Game. Would you like to play{playAgain}? Answer \'Yes\' or \'No\'. ")
+        if playerConsent.lower() == 'yes':
+            game.cardGame22()
+        elif playerConsent.lower() == 'no':
+            print("Thank you. This game was brought to you by Anmol Agrawal.")
+            exit(0)
+        else:
+            continue
+        playAgain = " again"

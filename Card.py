@@ -3,7 +3,7 @@ import random
 # class for single card
 class Card:
   
-  suit_list = ["Clubs", "Diamond", "Hearts", "Spades"] # Four suits in a deck
+  suit_list = ["♧", "♢", "♡", "♤"] # Four suits in a deck
   rank_list = ["None","Ace","2", "3","4","5","6","7","8","9","10","Jack","Queen","King"] # 13 ranks in a deck
 
 # constructor for card class
@@ -13,7 +13,23 @@ class Card:
 
 # string representation of card
   def __str__(self):
-    return (self.rank_list[self.rank] + " of " + self.suit_list[self.suit])
+    cardRank = "|" + self.rank_list[self.rank].ljust(9) + self.rank_list[self.rank].rjust(9) + "|"
+    return f"""
+    +------------------+
+    {cardRank}
+    |{self.suit_list[self.suit]}                {self.suit_list[self.suit]}|
+    |                  |
+    |                  |
+    |                  |
+    |                  |
+    |                  |
+    |                  |
+    |                  |
+    |{self.suit_list[self.suit]}                {self.suit_list[self.suit]}|
+    {cardRank}
+    +------------------+
+    """
+    # return (self.rank_list[self.rank] + " of " + self.suit_list[self.suit])
 
 # compare two cards for equality
   def __eq__(self, other) -> bool:
