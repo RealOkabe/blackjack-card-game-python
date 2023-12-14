@@ -1,50 +1,27 @@
-# from PyQt5 import QMessageBox
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton
-import sys
+from Card import Card
+from Deck import Deck
+from Hand import Hand
 
-class Game(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.title = "22 Card Game"
-        self.initUi()
-
-    def initUi(self):
-        # Create a window for everything
-        self.setGeometry(400,400,500,500)
-        self.setWindowTitle("22 Card Game") 
+class Game:
+    def cardGame22(self):
+        self.deck = Deck()
+        self.deck.shuffle()
+        startGame = False
+        while not startGame:
+            noOfPlayers = input("Welcome to the 22 Card Game. How many people will be playing? Please enter a number between 2 and 12: ")
+            try:
+                noOfPlayers = int(noOfPlayers)
+                if noOfPlayers not in range(2, 13):
+                    raise Exception("More than enough or not enough players")
+                startGame = True
+            except:
+                continue
+        hands = [Hand()] * noOfPlayers
+        for i in range(0, noOfPlayers):
+            hands[i].name = f"Player {i + 1}"
         
-        # The label will prompt to enter the number of players
-        self.label = QLabel(self)
-        self.label.setText("Welcome to the 22 Card Game. How many people will be playing? ")
-        self.label.adjustSize()
-        self.label.move(20, 20)
 
-        # The textbox will take input for the number of players
-        self.textbox = QLineEdit(self)
-        self.textbox.resize(70, 30)
-        self.textbox.move(20, 50)
-
-        # The button will confirm the prompt
-        self.button = QPushButton("Confirm", self)
-        self.button.move(10, 90)
-        userInput = self.button.clicked.connect(self.getNumberOfPlayers)
-        self.show()
-        
-    def getNumberOfPlayers(self):
-        self.textBoxValue = self.textbox.text()
-        self.textbox.setText("")
-        try:
-            self.textBoxValue = int(self.textBoxValue)
-        except:
-            self.label.setText("Please enter a number between 2 and 12")
-        startGame(self.textBoxValue)
-
-def startGame(numberOfPlayers):
-    
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
     game = Game()
-    sys.exit(app.exec_())
-
-# main() 
+    game.cardGame22()
