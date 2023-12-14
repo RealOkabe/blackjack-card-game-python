@@ -4,7 +4,8 @@ from Hand import Hand
 import copy
 
 class Game:
-    def eliminatePlayer(self, hand):
+
+    def getCardsSum(self, hand):
         sum = 0
         for i in hand.cards:
             if i.rank == "Jack":
@@ -17,9 +18,13 @@ class Game:
                 sum = sum + 1
             else:
                 sum = sum + int(i.rank)
-        if sum > 22:
-            return True
-        return False
+        return sum
+    
+    def eliminatePlayer(self, hand):
+        return self.getCardsSum(hand) > 22
+
+    # def checkWinner(self, hands):
+
 
     def cardGame22(self):
         self.deck = Deck()
@@ -42,13 +47,24 @@ class Game:
         while not self.deck.is_empty() and not winner:
             if firstTurn:
                 self.deck.deal(self.hands, 2)
+                firstTurn = False
                 for i in self.hands:
                     print(i)
-                for i in self.hands:
                     if self.eliminatePlayer(i):
                         print(f"{i.name} has been eliminated because their total exceeded 22")
-                        hands.pop(i)
-            winner = True
+                        self.hands.pop(i)
+            for i in range(0, self.noOfPlayers):
+                passOrPick = input(f"It\'s {self.hands[i].name}\'s turn now. {self.hands[i].name} would you like to pick a card? Answer \'yes\' or \'no\': ").lower()
+                if passOrPick == 'no':
+                    continue
+                elif passOrPick == 'yes':
+                    self.deck.deal(self.hands[i:i + 1], 1)
+                    print(self.hands[i])
+                    if self.eliminatePlayer(self.hands[i]):
+                        print(f"{self.hands[i].name} has been eliminated because their total exceeded 22")
+                        self.hands.pop(self.hands[i])
+                else:
+                    break
 
         
 
