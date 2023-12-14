@@ -4,6 +4,23 @@ from Hand import Hand
 import copy
 
 class Game:
+    def eliminatePlayer(self, hand):
+        sum = 0
+        for i in hand.cards:
+            if i.rank == "Jack":
+                sum = sum + 11
+            elif i.rank == "Queen":
+                sum = sum + 12
+            elif i.rank == "King":
+                sum = sum + 13
+            elif i.rank == "Ace":
+                sum = sum + 1
+            else:
+                sum = sum + int(i.rank)
+        if sum > 22:
+            return True
+        return False
+
     def cardGame22(self):
         self.deck = Deck()
         self.deck.shuffle()
@@ -27,6 +44,10 @@ class Game:
                 self.deck.deal(self.hands, 2)
                 for i in self.hands:
                     print(i)
+                for i in self.hands:
+                    if self.eliminatePlayer(i):
+                        print(f"{i.name} has been eliminated because their total exceeded 22")
+                        hands.pop(i)
             winner = True
 
         
