@@ -74,6 +74,10 @@ class Game:
                         i = i - 1
                     i = i + 1
                 winners = self.check21(self.hands)
+                if len(hands) == 1:
+                    winners = hands[0]
+                elif len(hands) == 0:
+                    "This has been a very rare turn of events. Everyone got eliminated on the first turn. Please start the game again."
             if winners:
                 break
             passCount = 0
