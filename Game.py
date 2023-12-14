@@ -23,7 +23,22 @@ class Game:
     def eliminatePlayer(self, hand):
         return self.getCardsSum(hand) > 22
 
-    # def checkWinner(self, hands):
+    def check22(self, hands):
+        winners = []
+        for i in hands:
+            if self.getCardsSum(i) == 22:
+                winners.append(i)
+        return winners
+
+    def checkWinner(self, hands):
+        sums = {}
+        for i in hands:
+            sums[i] = self.getCardsSum(i)
+        maxHand = max(sums.values())
+        return [x for x in sums.keys() if sums[x] == maxHand]
+
+
+        
 
 
     def cardGame22(self):
@@ -42,32 +57,47 @@ class Game:
         self.hands = [Hand() for _ in range(self.noOfPlayers)]
         for i in range(0, self.noOfPlayers):
             self.hands[i].name = f"Player {i + 1}"
-        winner = None
         firstTurn = True
-        while not self.deck.is_empty() and not winner:
+        winners = []
+        while not self.deck.is_empty() and not winners:
             if firstTurn:
                 self.deck.deal(self.hands, 2)
                 firstTurn = False
-                for i in self.hands:
-                    print(i)
-                    if self.eliminatePlayer(i):
-                        print(f"{i.name} has been eliminated because their total exceeded 22")
-                        self.hands.pop(i)
-            for i in range(0, self.noOfPlayers):
-                passOrPick = input(f"It\'s {self.hands[i].name}\'s turn now. {self.hands[i].name} would you like to pick a card? Answer \'yes\' or \'no\': ").lower()
-                if passOrPick == 'no':
-                    continue
-                elif passOrPick == 'yes':
-                    self.deck.deal(self.hands[i:i + 1], 1)
+                i = 0
+                while i < len(self.hands):
                     print(self.hands[i])
                     if self.eliminatePlayer(self.hands[i]):
                         print(f"{self.hands[i].name} has been eliminated because their total exceeded 22")
-                        self.hands.pop(self.hands[i])
+                        self.hands.pop(i)
+                        i = i - 1
+                    i = i + 1
+                winners = self.check22(self.hands)
+            if winners:
+                break
+            passCount = 0
+            turnNumber = 0
+            while turnNumber < len(self.hands):
+                passOrPick = input(f"It\'s {self.hands[turnNumber].name}\'s turn now. {self.hands[turnNumber].name} would you like to pick a card? Answer \'yes\' or \'no\': ").lower()
+                if passOrPick == 'no':
+                    passCount = passCount + 1
+                elif passOrPick == 'yes':
+                    self.deck.deal(self.hands[turnNumber:turnNumber + 1], 1)
+                    print(self.hands[turnNumber])
+                    if self.eliminatePlayer(self.hands[turnNumber]):
+                        print(f"{self.hands[turnNumber].name} has been eliminated because their total exceeded 22")
+                        self.hands.pop(turnNumber)
+                        turnNumber = turnNumber - 1
+                    winners = self.check22(self.hands)
                 else:
+                    continue
+                if passCount == len(self.hands):
+                    winners = self.checkWinner(self.hands)
+                if len(self.hands) == 1:
+                    winners = self.hands
                     break
+                turnNumber = turnNumber + 1
 
-        
-
+        print("Someone has won the game")
 
 if __name__ == '__main__':
     game = Game()
