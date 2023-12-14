@@ -27,12 +27,20 @@ class Game(QMainWindow):
         # The button will confirm the prompt
         self.button = QPushButton("Confirm", self)
         self.button.move(10, 90)
-        self.button.clicked.connect(self.getNumberOfPlayers)
+        userInput = self.button.clicked.connect(self.getNumberOfPlayers)
         self.show()
-
+        
     def getNumberOfPlayers(self):
         self.textBoxValue = self.textbox.text()
         self.textbox.setText("")
+        try:
+            self.textBoxValue = int(self.textBoxValue)
+        except:
+            self.label.setText("Please enter a number between 2 and 12")
+        startGame(self.textBoxValue)
+
+def startGame(numberOfPlayers):
+    
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
