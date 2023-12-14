@@ -16,7 +16,7 @@ class Deck:
     s = ""
 
     for i in range(len(self.cards)): 
-      s = s + i* " " + str(self.cards[i]) + "\n"  # add each card to string
+      s = s + str(self.cards[i]) + "\n"  # add each card to string
     return s
 
 # shuffle the deck
