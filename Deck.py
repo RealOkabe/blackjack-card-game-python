@@ -5,7 +5,7 @@ import random
 class Deck:
 
 # constructor for deck class
-  def __init__(self,n_cards):
+  def __init__(self):
     self.cards = []   # list of cards
     for suit in range(4): # 4 suits
       for rank in range(1,14):
@@ -37,9 +37,8 @@ class Deck:
 # Deal cards to hands
   def deal(self, hands, n_cards):
     n_players = len(hands)
-    for i in range(n_cards*2):
-      if self.is_empty():   # if deck is empty,
-        break            # break out of loop
-      card = self.pop_cards()   # remove card from deck
-      current_player = i % n_players
-      hands[current_player].add_card(card)  # add card to hand
+    for i in hands:
+      if self.is_empty():
+        break
+      for j in range(0, n_cards):
+        i.add_card(self.pop_cards())
