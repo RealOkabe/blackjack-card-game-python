@@ -82,16 +82,16 @@ class Game:
                 # One can get a total of 21 on the first turn, instantly winning the game.
                 winners = self.check21(self.hands)
                 # Edge conditions, only one or no player remaining.
-                if len(hands) == 1:
+                if len(self.hands) == 1:
                     winners = hands[0]
-                elif len(hands) == 0:
+                elif len(self.hands) == 0:
                     "This has been a very rare turn of events. Everyone got eliminated on the first turn. Please start the game again."
             if winners:
                 break
             passCount = 0
             turnNumber = 0
             # Here starts the game of turns
-            while turnNumber < len(self.hands):
+            while turnNumber < len(self.hands ):
                 passOrPick = input(f"It\'s {self.hands[turnNumber].name}\'s turn now. {self.hands[turnNumber].name} would you like to pick a card? Answer \'yes\' or \'no\': ").lower()
                 if passOrPick == 'no':
                     passCount = passCount + 1
